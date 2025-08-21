@@ -71,7 +71,7 @@ export default function Header() {
       {/* Desktop Navigation */}
       <nav className="hidden  md:flex items-center gap-8">
         <motion.a 
-          href="#products" 
+          href="/products" 
           className="text-white text-sm font-medium hover:text-yellow-400 transition-colors"
           whileHover={{ y: -2 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
@@ -79,7 +79,7 @@ export default function Header() {
           Products
         </motion.a>
         <motion.a 
-          href="#about" 
+          href="/about" 
           className="text-white text-sm font-medium hover:text-yellow-400 transition-colors"
           whileHover={{ y: -2 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
@@ -87,7 +87,7 @@ export default function Header() {
           About
         </motion.a>
         <motion.a 
-          href="#contact" 
+          href="/contact" 
           className="text-white text-sm font-medium hover:text-yellow-400 transition-colors"
           whileHover={{ y: -2 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
@@ -178,7 +178,7 @@ export default function Header() {
               </motion.button>
 
               <motion.a
-                href="#products"
+                href="/products"
                 onClick={() => setMenuOpen(false)}
                 variants={menuItemVariants}
                 initial="closed"
@@ -190,7 +190,7 @@ export default function Header() {
               </motion.a>
 
               <motion.a
-                href="#about"
+                href="/about"
                 onClick={() => setMenuOpen(false)}
                 variants={menuItemVariants}
                 initial="closed"
@@ -202,7 +202,7 @@ export default function Header() {
               </motion.a>
 
               <motion.a
-                href="#contact"
+                href="/contact"
                 onClick={() => setMenuOpen(false)}
                 variants={menuItemVariants}
                 initial="closed"
