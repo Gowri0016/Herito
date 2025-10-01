@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaTimes, FaEnvelope, FaBars } from 'react-icons/fa';
-import Logo from '../Asset/3.png';
+import Logo from '../Asset/3.jpeg';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -37,7 +37,7 @@ export default function Header() {
   return (
     <motion.header 
       className={`fixed top-0 left-0 w-full h-20 md:h-24 flex items-center justify-between px-4 md:px-12 z-50 ${
-        scrolled ? 'bg-black/90 backdrop-blur-md shadow-xl' : 'bg-black/70'
+        scrolled ? 'bg-black backdrop-blur-md shadow-xl' : 'bg-black'
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -53,18 +53,10 @@ export default function Header() {
           <motion.img
             src={Logo}
             alt="Energy Drink Logo"
-            className="w-12 md:w-16 brightness-0 invert"
+            className="w-16 md:w-24"
             whileHover={{ rotate: 10 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
           />
-          <motion.span 
-            className="text-lg md:text-2xl font-bold tracking-wide text-white"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-          >
-            Wellness
-          </motion.span>
         </a>
       </motion.div>
 
