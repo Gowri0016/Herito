@@ -62,6 +62,14 @@ export default function Header() {
 
       {/* Desktop Navigation */}
       <nav className="hidden  md:flex items-center gap-8">
+         <motion.a 
+          href="/" 
+          className="text-white text-sm font-medium hover:text-yellow-400 transition-colors"
+          whileHover={{ y: -2 }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+        >
+          Home
+        </motion.a>
         <motion.a 
           href="/products" 
           className="text-white text-sm font-medium hover:text-yellow-400 transition-colors"
@@ -168,6 +176,18 @@ export default function Header() {
               >
                 
               </motion.button>
+
+                 <motion.a
+                href="/"
+                onClick={() => setMenuOpen(false)}
+                variants={menuItemVariants}
+                initial="closed"
+                animate="open"
+                transition={{ delay: 0.1 }}
+                className="text-white text-xl font-medium hover:text-yellow-400 transition-colors"
+              >
+                Home
+              </motion.a>
 
               <motion.a
                 href="/products"

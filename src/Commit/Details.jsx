@@ -1,52 +1,66 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Pine from '../Asset/Pineapple.png';
-import Green from '../Asset/Greenapple.png';
-import Stab from '../Asset/Stabery.png';
+import Stabarrey from '../Asset/Stabery.png';
 import Orange from '../Asset/Orange.png';
-import Moji from '../Asset/Mojito.png';
+import Green from '../Asset/Greenapple.png';
+import Mojito from '../Asset/Mojito.png'
 
-// Updated flavor images
+// --- Image Placeholder URLs (Local imports are replaced with simple placeholders) ---
+const PINE_IMG = Pine
+const STAB_IMG = Stabarrey
+const ORANGE_IMG = Orange
+const MOJI_IMG = Mojito
+const GREEN_IMG = Green
+
+// Placeholder URLs for the "bottle" images in the Products Section (vertical format)
+const PINE_BOTTLE = 'https://placehold.co/120x300/fcd34d/1f2937?text=PINE';
+const STAB_BOTTLE = 'https://placehold.co/120x300/f87171/1f2937?text=STRAW';
+const ORANGE_BOTTLE = 'https://placehold.co/120x300/fb923c/1f2937?text=ORANGE';
+const MOJI_BOTTLE = 'https://placehold.co/120x300/34d399/1f2937?text=MOJITO';
+const GREEN_BOTTLE = 'https://placehold.co/120x300/6ee7b7/1f2937?text=APPLE';
+
+
 const flavorImages = [
-  { name: 'Pineapple', src: Pine, color: 'bg-yellow-500' },
-  { name: 'Strawberry', src: Stab, color: 'bg-red-500' },
-  { name: 'Orange', src: Orange, color: 'bg-orange-400' },
-  { name: 'Mojito', src: Moji, color: 'bg-green-400' },
-  { name: 'Green Apple', src: Green, color: 'bg-green-300' },
+  { name: 'Pineapple', src: PINE_IMG, color: 'bg-yellow-500' },
+  { name: 'Strawberry', src: STAB_IMG, color: 'bg-red-500' },
+  { name: 'Orange', src: ORANGE_IMG, color: 'bg-orange-400' },
+  { name: 'Mojito', src: MOJI_IMG, color: 'bg-green-400' },
+  { name: 'Green Apple', src: GREEN_IMG, color: 'bg-green-300' },
 ];
 
 const flavours = [
   {
     name: 'Pineapple Blast',
-    img: Pine,
+    img: PINE_IMG,
     details: 'Refreshing pineapple flavour with natural extracts and instant energy boost.',
     health: 'Per 500ml: Best for night workers, athletes, and gym-goers. Boosts stamina and focus.',
     color: 'from-yellow-500/20 to-yellow-700/40'
   },
   {
     name: 'Strawberry Surge',
-    img: Stab,
+    img: STAB_IMG,
     details: 'Sweet strawberry blend packed with antioxidants and freshness.',
     health: 'Per 500ml: Ideal for sports recovery, enhances endurance and immunity.',
     color: 'from-red-500/20 to-red-700/40'
   },
   {
     name: 'Orange Spark',
-    img: Orange,
+    img: ORANGE_IMG,
     details: 'Tangy orange flavour for hydration and vitamin C support.',
     health: 'Per 500ml: Keeps you refreshed during physical activity and boosts energy.',
     color: 'from-orange-400/20 to-orange-600/40'
   },
   {
     name: 'Mojito Rush',
-    img: Moji,
+    img: MOJI_IMG,
     details: 'Minty mojito taste with lime twist for ultimate refreshment.',
     health: 'Per 500ml: Perfect for late-night workers, improves alertness and focus.',
     color: 'from-green-400/20 to-green-600/40'
   },
   {
     name: 'Green Apple Shock',
-    img: Green,
+    img: GREEN_IMG,
     details: 'Crisp green apple extract with a punch of instant energy.',
     health: 'Per 500ml: Enhances stamina, reduces fatigue, and fuels active lifestyles.',
     color: 'from-green-300/20 to-green-500/40'
@@ -57,6 +71,15 @@ const flavours = [
 const FloatingParticles = ({ count = 20, flavorColor }) => {
   const particles = Array.from({ length: count });
   
+  // Custom particle color based on Tailwind class, extracting the base color for opacity
+  const baseColorHex = {
+    'bg-yellow-500': 'rgba(245, 158, 11, 0.7)', // amber-500
+    'bg-red-500': 'rgba(239, 68, 68, 0.7)', // red-500
+    'bg-orange-400': 'rgba(251, 146, 60, 0.7)', // orange-400
+    'bg-green-400': 'rgba(52, 211, 153, 0.7)', // emerald-400 (close to green-400)
+    'bg-green-300': 'rgba(110, 232, 167, 0.7)', // green-300
+  }[flavorColor] || 'rgba(255, 255, 255, 0.7)';
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {particles.map((_, i) => {
@@ -68,18 +91,20 @@ const FloatingParticles = ({ count = 20, flavorColor }) => {
         return (
           <motion.div
             key={i}
-            className={`absolute rounded-full ${flavorColor} opacity-70`}
+            className="absolute rounded-full"
             style={{
               width: size,
               height: size,
               left: `${positionX}%`,
-              top: '-5%'
+              top: '-5%',
+              backgroundColor: baseColorHex, // Use calculated color for the glow
+              filter: `blur(${size / 10}px)`, // Add blur for a high-tech/liquid feel
             }}
             animate={{
               y: ['0vh', '100vh'],
               x: [0, Math.random() * 50 - 25],
               rotate: [0, 360],
-              opacity: [0, 0.7, 0]
+              opacity: [0, 0.9, 0]
             }}
             transition={{
               duration,
@@ -97,23 +122,28 @@ const FloatingParticles = ({ count = 20, flavorColor }) => {
 // Liquid wave animation component
 const LiquidWave = ({ flavorColor }) => {
   return (
-    <div className="absolute bottom-0 left-0 w-full h-1/2 overflow-hidden opacity-30">
+    <div className="absolute bottom-0 left-0 w-full h-1/2 overflow-hidden opacity-50 z-20">
       <motion.div 
-        className={`w-[200%] h-full ${flavorColor} rounded-t-[50%]`}
+        className={`w-[200%] h-full ${flavorColor} rounded-t-[45%]`}
         animate={{
           x: ['0%', '-50%'],
         }}
         transition={{
-          duration: 15,
+          duration: 18, // Slow down wave motion
           repeat: Infinity,
           ease: "linear"
+        }}
+        style={{
+          boxShadow: '0 -20px 40px rgba(0,0,0,0.5)', // Add shadow for depth
+          filter: 'brightness(1.2)'
         }}
       />
     </div>
   );
 };
 
-export default function Details() {
+// Renamed Details to App to match the original component export
+const App = () => { 
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState(null);
   const [isHovering, setIsHovering] = useState(null);
@@ -134,8 +164,9 @@ export default function Details() {
       if (sectionRef.current) {
         const scrollTop = window.scrollY;
         const sectionTop = sectionRef.current.offsetTop;
-        const sectionHeight = sectionRef.current.offsetHeight;
-        const progress = Math.min(1, Math.max(0, (scrollTop - sectionTop + 300) / sectionHeight));
+        const windowHeight = window.innerHeight;
+        // Calculate progress based on the start of the section until it reaches the top
+        const progress = Math.min(1, Math.max(0, (scrollTop - sectionTop + windowHeight) / windowHeight));
         setScrollProgress(progress);
       }
     };
@@ -144,63 +175,66 @@ export default function Details() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Parallax effect for hero text
-  const heroTextY = scrollProgress * -100;
+  // Parallax effect for hero text - adjusted calculation
+  const heroTextY = scrollProgress * -150;
 
   return (
-    <>
-      <div className="md:mt-24" ref={sectionRef}>
-        {/* Hero Slideshow */}
-        <div className="relative w-full h-[400px] md:h-[550px] overflow-hidden bg-black flex flex-col items-center justify-center text-white">
+    <div className="min-h-screen bg-black text-white font-['Inter',_sans-serif] overflow-x-hidden">
+      <div className="md:mt-0" ref={sectionRef}>
+        
+        {/* Hero Slideshow - Unique Concept: Dynamic Liquid Energy Focus */}
+        <div className="relative w-full h-[600px] md:h-[80vh] overflow-hidden bg-gray-900 flex flex-col items-center justify-center text-white border-b-4 border-purple-500/50">
           <AnimatePresence mode="wait">
             {flavorImages.map((flavor, index) =>
               index === current ? (
                 <motion.div
                   key={flavor.name}
                   className="absolute inset-0"
-                  initial={{ opacity: 0, scale: 1.1 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 1.5, ease: 'easeInOut' }}
+                  initial={{ opacity: 0, clipPath: 'inset(0% 0% 100% 0%)' }} // Initial wipe up animation
+                  animate={{ opacity: 1, clipPath: 'inset(0% 0% 0% 0%)' }}
+                  exit={{ opacity: 0, clipPath: 'inset(100% 0% 0% 0%)' }} // Exit wipe down
+                  transition={{ duration: 1.2, ease: [0.6, -0.05, 0.01, 0.9] }} // Custom spring-like easing
                 >
                   <div className="relative w-full h-full">
+                    {/* Background Image/Color */}
                     <motion.img
                       src={flavor.src}
                       alt={flavor.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover opacity-30" // Lower opacity for high-tech look
                       initial={{ scale: 1.2 }}
                       animate={{ scale: 1 }}
-                      transition={{ duration: 8, ease: 'easeOut' }}
+                      transition={{ duration: 10, ease: 'easeOut' }}
                     />
-                    <div className={`absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent`} />
+                    <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent`} />
                     
                     {/* Dynamic liquid wave based on flavor */}
-                    <LiquidWave flavorColor={flavor.color} />
+                    <LiquidWave flavorColor={flavor.color.replace('bg-', 'from-').replace('-500', '-700/80')} />
                     
                     {/* Floating particles */}
                     <FloatingParticles flavorColor={flavor.color} />
                   </div>
                   
-                  {/* Animated Hero Text */}
+                  {/* Animated Hero Text with Parallax */}
                   <motion.div 
-                    className="absolute bottom-24 left-0 right-0 text-center px-4 z-10"
+                    className="absolute bottom-32 left-0 right-0 text-center px-4 z-30"
                     style={{ y: heroTextY }}
                   >
                     <motion.h1 
-                      className="text-4xl md:text-6xl font-bold mb-2"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3, duration: 0.8 }}
-                    >
-                      {flavor.name} Energy
-                    </motion.h1>
-                    <motion.p 
-                      className="text-lg md:text-xl max-w-2xl mx-auto"
-                      initial={{ opacity: 0, y: 20 }}
+                      className="text-5xl md:text-8xl font-extrabold mb-4 uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300"
+                      initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.5, duration: 0.8 }}
+                      style={{ textShadow: '0 0 10px rgba(255,255,255,0.2)' }}
                     >
-                      Experience the burst of natural {flavor.name.toLowerCase()} flavor
+                      {flavor.name}
+                    </motion.h1>
+                    <motion.p 
+                      className="text-xl md:text-2xl max-w-3xl mx-auto text-gray-400"
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.7, duration: 0.8 }}
+                    >
+                      Unleash the burst of **pure natural energy** and vibrant {flavor.name.toLowerCase()} essence.
                     </motion.p>
                   </motion.div>
                 </motion.div>
@@ -208,43 +242,50 @@ export default function Details() {
             )}
           </AnimatePresence>
 
-          {/* Dots with flavor color */}
-          <div className="absolute bottom-6 flex gap-3 z-10">
+          {/* Dots with flavor color and subtle glow */}
+          <div className="absolute bottom-8 flex gap-3 z-30">
             {flavorImages.map((flavor, index) => (
               <motion.button
                 key={index}
                 onClick={() => setCurrent(index)}
-                whileHover={{ scale: 1.2 }}
+                whileHover={{ scale: 1.4 }}
                 whileTap={{ scale: 0.9 }}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  current === index ? 'scale-125 shadow-lg' : 'bg-gray-500'
+                className={`w-3 h-3 rounded-full transition-all duration-300 border-2 border-white/50 ${
+                  current === index ? 'scale-150 shadow-2xl' : 'bg-gray-700/50'
                 }`}
-                style={{ backgroundColor: current === index ? flavorImages[current].color.split('-')[1] : '' }}
-              ></motion.button>
+                style={{ 
+                  // Complex inline style to generate the background and shadow colors dynamically for the dots
+                  backgroundColor: current === index ? flavorImages[current].color.replace('bg-', '').replace('red-500', '#ef4444').replace('yellow-500', '#f59e0b').replace('orange-400', '#fb923c').replace('green-400', '#34d399').replace('green-300', '#6ee7b7') : '',
+                  boxShadow: current === index ? `0 0 15px 2px ${flavorImages[current].color.replace('bg-', '').replace('red-500', '#ef4444').replace('yellow-500', '#f59e0b').replace('orange-400', '#fb923c').replace('green-400', '#34d399').replace('green-300', '#6ee7b7')}` : ''
+                }}
+              >
+              </motion.button>
             ))}
           </div>
         </div>
 
-        {/* Flavours Grid */}
-        <section className="py-12 md:py-16 bg-black text-white relative overflow-hidden">
+        {/* Flavours Grid - Data Display Concept */}
+        <section className="py-20 bg-black text-white relative overflow-hidden">
           {/* Animated background elements */}
           <div className="absolute inset-0 opacity-10">
             {flavorImages.map((flavor, i) => (
               <motion.div
                 key={i}
-                className={`absolute ${flavor.color} rounded-full`}
+                className={`absolute ${flavor.color.replace('-500', '-700')} rounded-full`}
                 style={{
-                  width: 200,
-                  height: 200,
-                  left: `${20 + i * 15}%`,
-                  top: `${30 + i * 5}%`,
+                  width: 250,
+                  height: 250,
+                  left: `${10 + i * 20}%`,
+                  top: `${10 + i * 15}%`,
+                  filter: 'blur(50px)'
                 }}
                 animate={{
-                  scale: [1, 1.2, 1],
+                  scale: [1, 1.3, 1],
                   rotate: [0, 180, 360],
+                  opacity: [0.1, 0.5, 0.1]
                 }}
                 transition={{
-                  duration: 15 + i * 3,
+                  duration: 20 + i * 5,
                   repeat: Infinity,
                   ease: "linear"
                 }}
@@ -252,130 +293,110 @@ export default function Details() {
             ))}
           </div>
           
-          <div className="text-center mb-8 md:mb-12 px-4 relative z-10">
+          <div className="text-center mb-16 px-4 relative z-10">
             <motion.h1 
-              className="text-3xl md:text-4xl font-bold tracking-wide"
+              className="text-4xl md:text-5xl font-extrabold tracking-wide text-purple-400"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              Our Flavours
+              Flavour Matrix Analysis
             </motion.h1>
             <motion.p 
-              className="mt-4 text-gray-300 max-w-2xl mx-auto text-sm md:text-base"
+              className="mt-4 text-gray-300 max-w-3xl mx-auto text-lg"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              Every flavour is crafted with natural fruit extracts, providing not just taste but also health benefits.
+              Each matrix point details the composition, benefit profile, and taste signature of our core energy lines.
             </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-10 px-6 md:px-16 relative z-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 px-6 md:px-16 relative z-10">
             {flavours.map((flavour, index) => (
               <motion.div
                 key={index}
                 onClick={() => setSelected(flavour)}
                 onHoverStart={() => setIsHovering(index)}
                 onHoverEnd={() => setIsHovering(null)}
-                className="relative h-64 md:h-80 rounded-xl shadow-lg overflow-hidden group bg-gray-900 cursor-pointer"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                className="relative h-auto p-6 rounded-2xl border border-gray-800 shadow-xl bg-gray-900/80 backdrop-blur-sm cursor-pointer hover:border-pink-500 transition-all duration-300"
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -10 }}
+                whileHover={{ y: -5, boxShadow: '0 15px 30px rgba(236, 72, 153, 0.2)' }}
               >
-                <motion.div 
-                  className={`absolute inset-0 bg-gradient-to-b ${flavour.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
-                />
+                {/* Visual Glow Header */}
+                <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${flavour.color.replace('from-', 'from-pink-500/0 from-').replace('to-', 'to-purple-500/0 to-')} rounded-t-xl`} />
                 
-                <motion.img
-                  src={flavour.img}
-                  alt={flavour.name}
-                  className="w-full h-full object-cover relative z-0"
-                  animate={isHovering === index ? 
-                    { scale: 1.1, rotate: 2 } : 
-                    { scale: 1, rotate: 0 }
-                  }
-                  transition={{ duration: 0.5 }}
-                />
+                <div className="flex items-start mb-4">
+                    <motion.div 
+                        className={`w-12 h-12 flex-shrink-0 rounded-full flex items-center justify-center mr-4 shadow-lg`}
+                        style={{ background: flavour.color.split(' ')[0].replace('from-', 'linear-gradient(45deg, #ec4899, #a855f7), ') }}
+                        animate={isHovering === index ? { rotate: 360 } : { rotate: 0 }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        {/* Placeholder for Icon (e.g., Lucide icon if available, or simple text) */}
+                        <span className="text-white text-xl font-bold">{index + 1}</span>
+                    </motion.div>
+                    <motion.h2 
+                      className="text-2xl font-bold tracking-wide text-pink-400 mt-1"
+                      animate={isHovering === index ? { x: 5 } : { x: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {flavour.name}
+                    </motion.h2>
+                </div>
+
+                <p className="text-gray-300 mb-4 leading-relaxed text-sm">{flavour.details}</p>
                 
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 bg-black/50 group-hover:bg-black/30 transition-all duration-500">
-                  <motion.h2 
-                    className="text-lg md:text-2xl font-semibold tracking-wide mb-2"
-                    animate={isHovering === index ? 
-                      { y: -10, color: '#fff' } : 
-                      { y: 0, color: '#fff' }
-                    }
-                    transition={{ duration: 0.3 }}
-                  >
-                    {flavour.name}
-                  </motion.h2>
-                  
-                  <motion.p 
-                    className="text-xs md:text-sm text-gray-200 opacity-90"
-                    animate={isHovering === index ? 
-                      { opacity: 1, y: -5 } : 
-                      { opacity: 0.9, y: 0 }
-                    }
-                    transition={{ duration: 0.3 }}
-                  >
-                    {flavour.details}
-                  </motion.p>
-                  
-                  <motion.button 
-                    className="mt-4 px-4 py-2 bg-white text-black text-xs font-semibold rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    Learn More
-                  </motion.button>
+                <div className="text-xs text-gray-400 p-3 rounded-lg border border-gray-700 bg-gray-800/50">
+                    <p className="font-semibold text-purple-300 mb-1">Health Profile:</p>
+                    <p>{flavour.health}</p>
                 </div>
                 
-                {/* Hover effect border */}
-                <motion.div 
-                  className="absolute inset-0 rounded-xl border-2 border-transparent"
-                  animate={isHovering === index ? 
-                    { borderColor: '#fff', opacity: 1 } : 
-                    { borderColor: 'transparent', opacity: 0 }
-                  }
-                  transition={{ duration: 0.3 }}
-                />
+                <motion.button 
+                  className="mt-6 w-full py-3 bg-gradient-to-r from-pink-600 to-purple-600 text-white text-sm font-semibold rounded-lg opacity-90 hover:opacity-100 transition-all duration-300 shadow-lg shadow-purple-900/40"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  View Data Profile
+                </motion.button>
               </motion.div>
             ))}
           </div>
 
-          {/* Modal */}
+          {/* Modal - Detailed Data Viewer */}
           <AnimatePresence>
             {selected && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 px-4 backdrop-blur-sm"
+                className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 px-4 backdrop-blur-md"
                 onClick={() => setSelected(null)}
               >
                 <motion.div
-                  initial={{ scale: 0.8, opacity: 0, rotate: -5 }}
-                  animate={{ scale: 1, opacity: 1, rotate: 0 }}
-                  exit={{ scale: 0.8, opacity: 0, rotate: 5 }}
-                  className="bg-white text-black rounded-2xl shadow-2xl max-w-lg w-full p-6 relative overflow-hidden"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.9, opacity: 0 }}
+                  className="bg-gray-900 text-white rounded-3xl shadow-2xl max-w-xl w-full p-8 relative overflow-hidden border border-purple-500/50"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  {/* Animated background in modal */}
+                  {/* Animated Background Pulse */}
                   <motion.div 
-                    className="absolute -inset-10 opacity-10 z-0"
-                    initial={{ scale: 0.8, rotate: 0 }}
-                    animate={{ scale: 1.2, rotate: 360 }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    className={`absolute -inset-20 z-0 opacity-20 rounded-full`}
+                    style={{ background: 'radial-gradient(circle, rgba(168, 85, 247, 0.4) 0%, rgba(0,0,0,0) 70%)' }}
+                    animate={{ scale: [1, 1.1, 1], rotate: [0, 10, 0] }}
+                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                   />
                   
                   <motion.button
                     onClick={() => setSelected(null)}
-                    className="absolute top-4 right-4 text-gray-500 hover:text-black z-10"
-                    whileHover={{ scale: 1.1, rotate: 90 }}
+                    className="absolute top-4 right-4 text-gray-400 hover:text-pink-400 z-10 p-2"
+                    whileHover={{ scale: 1.2, rotate: 90 }}
                     whileTap={{ scale: 0.9 }}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -383,9 +404,9 @@ export default function Details() {
                     </svg>
                   </motion.button>
                   
-                  <div className="relative z-10">
+                  <div className="relative z-10 text-center">
                     <motion.h2 
-                      className="text-2xl font-bold mb-4"
+                      className="text-4xl font-extrabold mb-4 text-pink-400 border-b border-gray-700 pb-2"
                       initial={{ y: -20, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.2 }}
@@ -401,35 +422,39 @@ export default function Details() {
                       <img
                         src={selected.img}
                         alt={selected.name}
-                        className="w-full h-48 object-cover rounded-xl mb-4"
+                        className="w-full h-48 object-cover rounded-xl mb-6 shadow-xl"
                       />
                     </motion.div>
                     
-                    <motion.p 
-                      className="text-gray-700 mb-2"
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: 0.4 }}
-                    >
-                      {selected.details}
-                    </motion.p>
-                    
-                    <motion.p 
-                      className="text-gray-900 font-semibold"
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: 0.5 }}
-                    >
-                      {selected.health}
-                    </motion.p>
+                    <div className="text-left space-y-3">
+                        <motion.div
+                            initial={{ x: -20, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            transition={{ delay: 0.4 }}
+                            className="bg-gray-800 p-4 rounded-lg"
+                        >
+                            <h3 className="font-bold text-purple-400">Flavor Profile:</h3>
+                            <p className="text-gray-300">{selected.details}</p>
+                        </motion.div>
+                        
+                        <motion.div
+                            initial={{ x: 20, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            transition={{ delay: 0.5 }}
+                            className="bg-gray-800 p-4 rounded-lg"
+                        >
+                            <h3 className="font-bold text-pink-400">Functional Benefits:</h3>
+                            <p className="text-gray-300">{selected.health}</p>
+                        </motion.div>
+                    </div>
                     
                     <motion.button
                       onClick={() => setSelected(null)}
-                      className="mt-6 px-6 py-2 bg-black text-white rounded-xl hover:bg-gray-800"
+                      className="mt-8 px-6 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:shadow-lg hover:from-purple-500 transition-all"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      Close
+                      Close Data Stream
                     </motion.button>
                   </div>
                 </motion.div>
@@ -438,35 +463,18 @@ export default function Details() {
           </AnimatePresence>
         </section>
 
-        {/* Products Section */}
-        <section className="py-12 md:py-16 bg-black text-white relative overflow-hidden">
-          {/* Animated background */}
-          <div className="absolute inset-0 opacity-5">
-            <motion.div 
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.2) 0%, transparent 40%)`,
-              }}
-              animate={{
-                backgroundPosition: ['0% 0%', '100% 100%'],
-              }}
-              transition={{
-                duration: 20,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-            />
-          </div>
+        {/* Products Section - Bottle Visualizer */}
+        <section className="py-20 bg-gray-900/50 text-white relative overflow-hidden border-t border-purple-500/30">
           
-          <div className="text-center mb-8 md:mb-12 px-4 relative z-10">
+          <div className="text-center mb-16 px-4 relative z-10">
             <motion.h1 
-              className="text-3xl md:text-4xl font-bold tracking-wide"
+              className="text-4xl md:text-5xl font-extrabold tracking-wide text-pink-400"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              Herito Energy Drink
+              Physical Product Rendering
             </motion.h1>
             <motion.p 
               className="mt-4 text-sm md:text-lg text-gray-300 max-w-2xl mx-auto"
@@ -475,17 +483,17 @@ export default function Details() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              Refresh your day with Herito Energy Drink Juice, now available in sleek, modern bottles filled with pure energy and natural flavours.
+              Sleek, modern bottles designed for performance and accessibility.
             </motion.p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 md:gap-10 px-6 md:px-16 relative z-10">
             {[
-              { name: "Pineapple Blast", img: "/images/pineapple-bottle.png", color: "bg-yellow-500" },
-              { name: "Strawberry Surge", img: "/images/strawberry-bottle.png", color: "bg-red-500" },
-              { name: "Orange Spark", img: "/images/orange-bottle.png", color: "bg-orange-400" },
-              { name: "Mojito Rush", img: "/images/mojito-bottle.png", color: "bg-green-400" },
-              { name: "Green Apple Shock", img: "/images/greenapple-bottle.png", color: "bg-green-300" },
+              { name: "Pineapple Blast", img: PINE_BOTTLE, color: "bg-yellow-500", glow: "shadow-yellow-500" },
+              { name: "Strawberry Surge", img: STAB_BOTTLE, color: "bg-red-500", glow: "shadow-red-500" },
+              { name: "Orange Spark", img: ORANGE_BOTTLE, color: "bg-orange-400", glow: "shadow-orange-400" },
+              { name: "Mojito Rush", img: MOJI_BOTTLE, color: "bg-green-400", glow: "shadow-green-400" },
+              { name: "Green Apple Shock", img: GREEN_BOTTLE, color: "bg-green-300", glow: "shadow-green-300" },
             ].map((product, index) => (
               <motion.div
                 key={index}
@@ -494,23 +502,24 @@ export default function Details() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -10 }}
+                whileHover={{ y: -15 }}
               >
                 <motion.div 
-                  className="relative h-44 w-28 md:h-72 md:w-52 rounded-xl shadow-lg overflow-hidden bg-white"
+                  className={`relative h-56 w-32 md:h-80 md:w-44 rounded-xl shadow-2xl overflow-hidden bg-white/10 border border-gray-700`}
                   whileHover={{ 
                     scale: 1.05,
-                    boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)"
+                    boxShadow: `0 0 40px -10px ${product.glow.replace('shadow-', '')}/70`,
+                    transition: { type: "spring", stiffness: 300, damping: 15 }
                   }}
                   transition={{ type: "spring", stiffness: 300, damping: 15 }}
                 >
                   {/* Liquid fill effect */}
                   <motion.div 
-                    className={`absolute bottom-0 left-0 right-0 ${product.color} opacity-30`}
+                    className={`absolute bottom-0 left-0 right-0 ${product.color} opacity-40`}
                     initial={{ height: "0%" }}
                     whileInView={{ height: "70%" }}
                     viewport={{ once: true }}
-                    transition={{ duration: 1, delay: index * 0.2 + 0.5 }}
+                    transition={{ duration: 1.2, delay: index * 0.2 + 0.5 }}
                   />
                   
                   <motion.img
@@ -518,55 +527,33 @@ export default function Details() {
                     alt={product.name}
                     className="w-full h-full object-contain p-3 relative z-10"
                     whileHover={{ 
-                      y: -5,
+                      y: -10,
                       transition: { type: "spring", stiffness: 300, damping: 15 }
                     }}
                   />
-                  
-                  {/* Bubble effects */}
-                  {[0, 1, 2].map(i => (
-                    <motion.div
-                      key={i}
-                      className={`absolute ${product.color} rounded-full opacity-50`}
-                      style={{
-                        width: 10 + i * 5,
-                        height: 10 + i * 5,
-                        left: `${20 + i * 20}%`,
-                        bottom: `${10 + i * 5}%`,
-                      }}
-                      animate={{
-                        y: [0, -20, 0],
-                        opacity: [0, 0.7, 0],
-                      }}
-                      transition={{
-                        duration: 2 + i,
-                        repeat: Infinity,
-                        delay: i * 0.5,
-                        ease: "easeInOut"
-                      }}
-                    />
-                  ))}
                 </motion.div>
                 
                 <motion.h2 
-                  className="mt-4 text-xs md:text-lg font-semibold"
-                  whileHover={{ color: product.color.split('-')[1] }}
+                  className="mt-4 text-sm md:text-lg font-bold text-gray-200"
+                  whileHover={{ color: product.color.replace('bg-', '') }}
                 >
                   {product.name}
                 </motion.h2>
                 
                 <motion.button 
-                  className="mt-2 px-3 py-1 bg-white text-black text-xs font-semibold rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  className={`mt-2 px-4 py-1 text-xs font-semibold rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white opacity-80 group-hover:opacity-100 transition-opacity duration-300`}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                 >
-                  Enquiry
+                  Inquire
                 </motion.button>
               </motion.div>
             ))}
           </div>
         </section>
       </div>
-    </>
+    </div>
   );
 }
+
+export default App;

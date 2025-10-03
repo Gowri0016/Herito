@@ -1,33 +1,30 @@
 import React, { useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 
-const AboutHerito = () => {
+// Note: We assume Font Awesome is available in the environment for the 'fas' classes.
+
+const App = () => {
   const missionCardsRef = useRef([]);
   const sectionsRef = useRef([]);
 
   useEffect(() => {
-    // Animation for mission cards on scroll
+    // 1. Intersection Observer for Scroll Effects
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.style.opacity = 1;
-          entry.target.style.transform = 'translateY(0)';
+          entry.target.classList.add('show-card');
         }
       });
-    }, { threshold: 0.1 });
-    
+    }, { threshold: 0.2 });
+
     missionCardsRef.current.forEach(card => {
-      if (card) {
-        card.style.opacity = 0;
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        observer.observe(card);
-      }
+      if (card) observer.observe(card);
     });
 
-    // Add energy pulses dynamically to sections
+    // 2. Dynamic Energy Pulses for Background Aesthetic
     sectionsRef.current.forEach(section => {
-      if (section) {
-        for (let i = 0; i < 3; i++) {
+      if (section && section.children.length < 10) { // Check to prevent duplicating pulses on re-render
+        for (let i = 0; i < 5; i++) {
           const pulse = document.createElement('div');
           pulse.classList.add('energy-pulse');
           pulse.style.left = `${Math.random() * 90 + 5}%`;
@@ -38,279 +35,230 @@ const AboutHerito = () => {
       }
     });
 
-    // Cleanup function
-    return () => {
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, []);
 
-  return (
-    <div className="min-h-screen bg-black mt-6 text-white font-['Poppins']">
+  const MissionCard = ({ icon, title, desc, index }) => (
+    <div
+      ref={el => missionCardsRef.current[index] = el}
+      className="mission-card bg-gray-900/50 p-6 rounded-xl border border-transparent hover:border-pink-600/50 shadow-md shadow-black/70 opacity-0 transform translate-y-10 transition-all duration-700 ease-out backdrop-blur-sm cursor-pointer"
+    >
+      <div className="w-14 h-14 rounded-full bg-gradient-to-br from-pink-600 to-purple-600 flex items-center justify-center mb-4 shadow-lg pulse-shadow">
+        <i className={`fas ${icon} text-white text-xl`}></i>
+      </div>
+      <h3 className="text-xl font-bold mb-2 text-pink-400">{title}</h3>
+      <p className="text-gray-400 text-sm">{desc}</p>
+    </div>
+  );
 
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-black to-gray-950 text-white font-['Inter',_sans-serif] overflow-hidden">
+      
       {/* Hero Section */}
       <section 
-        className="hero-pattern py-16 md:py-24 px-6 relative overflow-hidden"
+        className="relative py-28 md:py-36 px-6 border-b border-purple-900/50"
         ref={el => sectionsRef.current[0] = el}
       >
-        <div className="hidden md:block absolute top-10 left-10 w-20 h-20 opacity-20 fruit-float">
-          <img src="https://cdn-icons-png.flaticon.com/512/4150/4150715.png" alt="Pineapple" className="w-full h-full" />
-        </div>
-        <div className="hidden md:block absolute top-1/4 right-16 w-16 h-16 opacity-20 fruit-pulse">
-          <img src="https://cdn-icons-png.flaticon.com/512/6215/6215478.png" alt="Strawberry" className="w-full h-full" />
-        </div>
-        <div className="hidden md:block absolute bottom-20 left-1/4 w-14 h-14 opacity-20 fruit-float" style={{animationDelay: '1s'}}>
-          <img src="https://cdn-icons-png.flaticon.com/512/547/547525.png" alt="Orange" className="w-full h-full" />
-        </div>
-        
-        <div className="max-w-6xl mx-auto text-center relative z-10">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">Our <span className="text-pink-500">Story</span></h1>
-          <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto">
-            From a vision in 2024 to revolutionizing energy drinks with natural fruit power
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ duration: 1 }}
+          className="max-w-6xl mx-auto text-center relative z-10"
+        >
+          <p className="text-md uppercase tracking-widest text-pink-500 mb-2">The Herito Standard</p>
+          <h1 className="text-6xl md:text-8xl font-extrabold mb-8 glowing-text">
+            Our Story
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto opacity-80">
+            From a dedicated vision to a **global benchmark** in wellness, we are revolutionizing the beverage industry with **pure fruit power** and scientific innovation.
           </p>
+        </motion.div>
+      </section>
+
+      {/* Founder’s Note Section */}
+      <section className="py-20 px-6 bg-black/40 backdrop-blur-sm relative rounded-3xl mx-6 md:mx-16 my-16 shadow-inner-xl" ref={el => sectionsRef.current[1] = el}>
+        <div className="max-w-5xl mx-auto text-center">
+          <motion.h2 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-4xl font-bold mb-10 text-pink-400 border-b-2 border-pink-700/50 inline-block pb-2"
+          >
+            Founder’s Note
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.3 }}
+            viewport={{ once: true }}
+            className="text-gray-300 max-w-4xl mx-auto italic leading-loose text-lg"
+          >
+            “At Herito Wellness, our journey began with a simple belief — that beverages should do more than refresh. They should energize, nourish, and inspire healthier lifestyles.
+            <br /><br />
+            When we started this company, our vision was to create products that reflect both **science and nature**, combining international standards with the unique needs of Indian consumers. Every drink we craft carries our promise of quality, safety, and wellness.
+            <br /><br />
+            Herito is more than just a beverage company. It’s a movement towards a healthier, more energetic India — one sip at a time. Our mission is to make world-class functional beverages accessible to every individual, while ensuring that we stay responsible towards our environment and communities.
+            <br /><br />
+            This is only the beginning. Together, we will build a brand that India is proud of — and the world respects.”
+            <br /><br />
+            <span className="text-purple-400 font-semibold">— Founder, Herito Wellness Private Limited</span>
+          </motion.p>
         </div>
       </section>
 
-      {/* Founder Section */}
-      <section 
-        className="py-16 px-6 bg-gray-900 relative"
-        ref={el => sectionsRef.current[1] = el}
-      >
-        <div className="hidden md:block absolute top-10 right-20 w-16 h-16 opacity-20 fruit-pulse" style={{animationDelay: '0.5s'}}>
-          <img src="https://cdn-icons-png.flaticon.com/512/415/415733.png" alt="Green Apple" className="w-full h-full" />
-        </div>
-        
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center gap-10">
-            <div className="md:w-1/3 relative mb-8 md:mb-0">
-              <div className="founder-img rounded-lg overflow-hidden shadow-2xl">
-                <div className="w-48 h-48 md:w-64 md:h-64 bg-gradient-to-br from-pink-500 to-purple-600 rounded-lg flex items-center justify-center mx-auto">
-                  <span className="text-white text-4xl md:text-6xl">DK</span>
-                </div>
-              </div>
-              <div className="energy-pulse" style={{top: '40%', left: '40%', animationDelay: '1s'}}></div>
-            </div>
-            <div className="md:w-2/3">
-              <h2 className="text-3xl font-bold mb-6">Meet Our Founder <span className="text-pink-500">Dinesh K</span></h2>
-              <p className="text-gray-300 mb-4">
-                In June 2024, Dinesh K set out on a mission to create an energy drink that doesn't just boost your energy but nourishes your body with natural ingredients.
-              </p>
-              <p className="text-gray-300 mb-4">
-                With a background in nutrition and a passion for innovation, Dinesh noticed that most energy drinks were loaded with artificial ingredients and excessive sugars. He envisioned a better alternative - one that harnesses the natural power of fruits.
-              </p>
-              <p className="text-gray-300">
-                "We believe that what fuels your body should empower you, not drain you. That's why we created Herito - to provide clean, sustainable energy from nature's best ingredients."
-              </p>
-              <div className="mt-6 flex items-center space-x-4">
-                <div className="w-12 h-12 rounded-full bg-pink-500 flex items-center justify-center">
-                  <i className="fas fa-lightbulb text-white"></i>
-                </div>
-                <div>
-                  <h4 className="font-semibold">Innovation Through Nature</h4>
-                  <p className="text-sm text-gray-400">Harnessing fruit power for sustainable energy</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Timeline Section */}
-      <section 
-        className="py-16 px-6 bg-black relative"
-        ref={el => sectionsRef.current[2] = el}
-      >
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-16">Our <span className="text-pink-500">Journey</span></h2>
+      {/* About Us & Company Sections */}
+      <section className="py-20 px-6 relative" ref={el => sectionsRef.current[2] = el}>
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-start">
           
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-4 md:left-1/2 h-full w-1 bg-gradient-to-b from-pink-500 to-purple-600 transform -translate-x-1/2"></div>
-            
-            {/* Timeline items */}
-            <div className="space-y-12">
-              <div className="relative pl-10 md:pl-0 md:flex md:items-center">
-                <div className="md:w-1/2 md:pr-12 md:text-right mb-4 md:mb-0">
-                  <h3 className="text-xl font-bold">June 2024</h3>
-                  <p className="text-pink-500">The Beginning</p>
-                </div>
-                <div className="timeline-item md:w-1/2 md:pl-12 relative">
-                  <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-                    <p>Herito was founded by Dinesh K with a vision to create natural energy drinks that actually benefit your body.</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="relative pl-10 md:pl-0 md:flex md:items-center">
-                <div className="md:w-1/2 md:pr-12 md:text-right mb-4 md:mb-0">
-                  <h3 className="text-xl font-bold">July 2024</h3>
-                  <p className="text-pink-500">Product Development</p>
-                </div>
-                <div className="timeline-item md:w-1/2 md:pl-12 relative">
-                  <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-                    <p>Months of research and development resulted in our unique formula combining natural fruit extracts with sustainable energy boosters.</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="relative pl-10 md:pl-0 md:flex md:items-center">
-                <div className="md:w-1/2 md:pr-12 md:text-right mb-4 md:mb-0">
-                  <h3 className="text-xl font-bold">September 2024</h3>
-                  <p className="text-pink-500">Launch</p>
-                </div>
-                <div className="timeline-item md:w-1/2 md:pl-12 relative">
-                  <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-                    <p>Herito Energy Drink launched with five initial flavors: Pineapple, Strawberry, Orange, Mojito Lemon, and Green Apple.</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="relative pl-10 md:pl-0 md:flex md:items-center">
-                <div className="md:w-1/2 md:pr-12 md:text-right mb-4 md:mb-0">
-                  <h3 className="text-xl font-bold">Today</h3>
-                  <p className="text-pink-500">Growing Strong</p>
-                </div>
-                <div className="timeline-item md:w-1/2 md:pl-12 relative">
-                  <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-                    <p>Herito continues to expand its product line while staying true to its core values of natural ingredients and sustainable energy.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* About Us */}
+          <motion.div
+            initial={{ x: -80, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true, amount: 0.5 }}
+            className="p-8 rounded-xl bg-gray-900/70 border border-purple-900/60 shadow-xl shadow-purple-900/20"
+          >
+            <h2 className="text-3xl font-bold mb-6 text-purple-400">The Herito Identity</h2>
+            <p className="text-gray-300 mb-4 leading-relaxed">
+              Herito Wellness Private Limited is a modern wellness and beverage company, dedicated to redefining refreshment and nutrition. With a strong foundation in innovation and research, we specialize in developing high-quality beverages and processed foods that combine health, taste, and functionality.
+            </p>
+            <p className="text-gray-400 leading-relaxed">
+              Our portfolio covers energy drinks, sports drinks, nutritional beverages, functional foods, and ready-to-drink solutions, all crafted with global quality benchmarks and designed to meet the lifestyle needs of today’s consumers.
+            </p>
+          </motion.div>
+
+          {/* About Our Company */}
+          <motion.div
+            initial={{ x: 80, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true, amount: 0.5 }}
+            className="p-8 rounded-xl bg-gray-900/70 border border-purple-900/60 shadow-xl shadow-purple-900/20"
+          >
+            <h2 className="text-3xl font-bold mb-6 text-pink-400">Our Operational Scope</h2>
+            <p className="text-gray-300 mb-6 leading-relaxed">
+              At Herito Wellness, we believe in going beyond refreshment — we focus on wellness with purpose. Supported by modern production facilities, research-driven product development, and strict quality control systems, our company ensures that every product meets international standards.
+            </p>
+            <ul className="text-gray-400 space-y-3 text-left pl-5 list-disc marker:text-pink-500">
+              <li>Manufacturing and precision packaging of functional beverages & foods.</li>
+              <li>Establishing and operating advanced R&D and cold-storage facilities.</li>
+              <li>Omnichannel distribution through wholesale, retail, e-commerce, and institutional supply chains.</li>
+            </ul>
+          </motion.div>
         </div>
       </section>
 
-      {/* Mission Section */}
-      <section 
-        className="py-16 px-6 bg-gray-900"
-        ref={el => sectionsRef.current[3] = el}
-      >
+      {/* Vision & Mission Section */}
+      <section className="py-24 px-6 relative" ref={el => sectionsRef.current[3] = el}>
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-4">Our <span className="text-pink-500">Mission</span></h2>
-          <p className="text-gray-400 text-center max-w-2xl mx-auto mb-12">We're committed to transforming the energy drink industry with our natural approach</p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div 
-              ref={el => missionCardsRef.current[0] = el}
-              className="mission-card bg-gray-800 p-6 md:p-8 rounded-xl transition-all duration-300"
+          <motion.h2 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-5xl font-extrabold mb-16 text-center text-purple-400"
+          >
+            Vision & Core Directives
+          </motion.h2>
+
+          <div className="grid md:grid-cols-2 gap-12 items-start">
+            {/* Vision */}
+            <motion.div
+              initial={{ y: 50, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="p-10 rounded-2xl border-2 border-pink-700/50 shadow-2xl shadow-pink-900/40 bg-black/50 h-full"
             >
-              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-pink-500 flex items-center justify-center mb-4 md:mb-6">
-                <i className="fas fa-leaf text-white text-xl md:text-2xl"></i>
-              </div>
-              <h3 className="text-xl font-bold mb-3 md:mb-4">Natural Ingredients</h3>
-              <p className="text-gray-400 text-sm md:text-base">We use only real fruit extracts and natural energy sources, avoiding artificial additives and excessive sugars.</p>
-            </div>
-            
-            <div 
-              ref={el => missionCardsRef.current[1] = el}
-              className="mission-card bg-gray-800 p-6 md:p-8 rounded-xl transition-all duration-300"
+              <h3 className="text-4xl font-bold mb-4 text-pink-400">Our Vision</h3>
+              <p className="text-gray-300 leading-relaxed text-lg">
+                To be recognized as India’s **most trusted wellness and beverage company** — setting international standards in innovation, quality, and sustainability while making premium functional beverages accessible to every consumer in the country.
+              </p>
+            </motion.div>
+
+            {/* Mission */}
+            <motion.div
+              initial={{ y: 50, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="p-10 rounded-2xl border-2 border-purple-700/50 shadow-2xl shadow-purple-900/40 bg-black/50"
             >
-              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-pink-500 flex items-center justify-center mb-4 md:mb-6">
-                <i className="fas fa-recycle text-white text-xl md:text-2xl"></i>
-              </div>
-              <h3 className="text-xl font-bold mb-3 md:mb-4">Sustainability</h3>
-              <p className="text-gray-400 text-sm md:text-base">From sourcing to packaging, we prioritize eco-friendly practices to minimize our environmental impact.</p>
-            </div>
-            
-            <div 
-              ref={el => missionCardsRef.current[2] = el}
-              className="mission-card bg-gray-800 p-6 md:p-8 rounded-xl transition-all duration-300"
-            >
-              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-pink-500 flex items-center justify-center mb-4 md:mb-6">
-                <i className="fas fa-heart text-white text-xl md:text-2xl"></i>
-              </div>
-              <h3 className="text-xl font-bold mb-3 md:mb-4">Health Focused</h3>
-              <p className="text-gray-400 text-sm md:text-base">Our drinks are designed to provide clean energy without the crash, supporting your active lifestyle.</p>
+              <h3 className="text-4xl font-bold mb-6 text-purple-400">Our Mission</h3>
+              <p className="text-gray-300 mb-8 leading-relaxed text-lg">
+                To enrich lives by creating innovative, functional, and wellness-focused beverages and foods that combine great taste with health benefits, empowering consumers to perform, recover, and live better every day.
+              </p>
+            </motion.div>
+          </div>
+
+          {/* Mission Cards / Core Values */}
+          <div className="mt-16 text-center">
+            <h3 className="text-3xl font-bold mb-10 text-pink-400">Core Values</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+              <MissionCard index={0} icon={'fa-leaf'} title={'Natural Formulation'} desc={'Harnessing real fruit extracts and clean, sustainable energy sources.'} />
+              <MissionCard index={1} icon={'fa-shield-alt'} title={'Global Quality'} desc={'Adhering to strict international standards for safety, consistency, and trust.'} />
+              <MissionCard index={2} icon={'fa-hand-holding-heart'} title={'Conscious Wellness'} desc={'Creating products designed for active, modern lifestyles without the crash.'} />
             </div>
           </div>
         </div>
       </section>
 
       <style jsx>{`
-        body {
-          font-family: 'Poppins', sans-serif;
-          background-color: #0a0a0a;
-          color: white;
-          margin: 0;
-          padding: 0;
-        }
-        
-        .hero-pattern {
-          background: radial-gradient(circle, rgba(20,20,20,0.9) 0%, rgba(10,10,10,1) 70%);
-        }
-        
-        .fruit-float {
-          animation: float 6s ease-in-out infinite;
-        }
-        
-        .fruit-pulse {
-          animation: pulse 4s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-          0%, 100% { transform: translateY(0) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(5deg); }
-        }
-        
-        @keyframes pulse {
-          0%, 100% { opacity: 0.7; transform: scale(1); }
-          50% { opacity: 1; transform: scale(1.05); }
-        }
-        
-        .timeline-item::before {
-          content: '';
-          position: absolute;
-          left: -20px;
-          top: 8px;
-          width: 12px;
-          height: 12px;
-          border-radius: 50%;
-          background: #ec4899;
-        }
-        
-        .mission-card:hover {
-          transform: translateY(-10px);
-          box-shadow: 0 20px 25px -5px rgba(236, 72, 153, 0.1), 0 10px 10px -5px rgba(236, 72, 153, 0.04);
-        }
-        
-        .founder-img {
-          transition: transform 0.5s ease;
-        }
-        
-        .founder-img:hover {
-          transform: scale(1.05);
-        }
-        
-        .energy-pulse {
-          position: absolute;
-          border-radius: 50%;
-          border: 2px solid rgba(236, 72, 153, 0.3);
-          animation: energy 4s infinite linear;
-          opacity: 0;
-        }
-        
-        @keyframes energy {
-          0% {
-            transform: scale(0.1);
-            opacity: 0.8;
-          }
-          100% {
-            transform: scale(2);
-            opacity: 0;
-          }
+        /* Global & Utility Classes */
+        .font-\['Inter',\_sans-serif\] {
+          font-family: 'Inter', sans-serif;
         }
 
-        /* Responsive adjustments for medium screens */
-        @media (max-width: 768px) {
-          .timeline-item::before {
-            left: -15px;
-            width: 10px;
-            height: 10px;
-          }
+        /* Glowing Text Effect for Premium Feel */
+        .glowing-text {
+          background-image: linear-gradient(90deg, #ec4899, #a855f7);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          filter: drop-shadow(0 0 5px rgba(236, 72, 153, 0.6)) drop-shadow(0 0 10px rgba(168, 85, 247, 0.4));
+        }
+
+        /* Subtle Inner Shadow on Main Cards */
+        .shadow-inner-xl {
+          box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8), 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Mission Card Scroll-In Effect */
+        .mission-card {
+          transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .mission-card.show-card {
+          opacity: 1 !important;
+          transform: translateY(0) !important;
+        }
+
+        /* Icon Pulse Shadow */
+        .pulse-shadow {
+            box-shadow: 0 0 10px rgba(236,72,153,0.7), 0 0 20px rgba(168,85,247,0.5);
+        }
+
+        /* Animated Energy Pulses for Background */
+        .energy-pulse {
+          position: absolute;
+          width: 8px;
+          height: 8px;
+          background: rgba(168, 85, 247, 0.5); /* Purple/Faint Blue */
+          border-radius: 50%;
+          filter: blur(2px);
+          animation: float-pulse 8s infinite ease-in-out;
+          pointer-events: none;
+          z-index: 0;
+        }
+        @keyframes float-pulse {
+          0% { transform: scale(0.6) translate(0, 0); opacity: 0; }
+          25% { opacity: 1; }
+          50% { transform: scale(1.5) translate(10px, -10px); opacity: 0.6; }
+          75% { transform: scale(0.8) translate(-5px, 5px); opacity: 0.3; }
+          100% { transform: scale(0.6) translate(0, 0); opacity: 0; }
         }
       `}</style>
     </div>
   );
 };
 
-export default AboutHerito;
+export default App;
