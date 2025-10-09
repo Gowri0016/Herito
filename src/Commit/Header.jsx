@@ -1,247 +1,97 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaTimes, FaEnvelope, FaBars } from 'react-icons/fa';
 import Logo from '../Asset/3.jpeg';
+import { HiOutlineMenu, HiX } from 'react-icons/hi';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
 
-  // Detect scroll for header background change
-  useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 10;
-      setScrolled(isScrolled);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Menu item animation variants
-  const menuItemVariants = {
-    closed: { opacity: 0, x: 50 },
-    open: { opacity: 1, x: 0 }
-  };
-
-  // Button hover animation
-  const buttonHover = {
-    scale: 1.05,
-    boxShadow: "0 10px 20px rgba(255, 255, 255, 0.2)",
-    transition: { type: "spring", stiffness: 400, damping: 10 }
-  };
-
-  // Button tap animation
-  const buttonTap = { scale: 0.95 };
+  const navLinks = [
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '/about' },
+    { name: 'Products', href: '/products' },
+    { name: 'Enquiry', href: '/enquiry' }
+  ];
 
   return (
-    <motion.header 
-      className={`fixed top-0 left-0 w-full h-20 md:h-24 flex items-center justify-between px-4 md:px-12 z-50 ${
-        scrolled ? 'bg-black backdrop-blur-md shadow-xl' : 'bg-black'
-      }`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-    >
-      {/* Logo with hover animation */}
-      <motion.div
-        className="flex items-center gap-2 z-10"
-        whileHover={{ scale: 1.05 }}
-        transition={{ type: "spring", stiffness: 400, damping: 10 }}
-      >
-        <a href="/" className="flex items-center gap-2">
-          <motion.img
-            src={Logo}
-            alt="Energy Drink Logo"
-            className="w-16 md:w-24"
-            whileHover={{ rotate: 10 }}
-            transition={{ type: "spring", stiffness: 400, damping: 10 }}
-          />
-        </a>
-      </motion.div>
+    <header className="fixed top-0 left-0 w-full bg-black z-50 shadow-lg">
+      {/* Navigation Bar */}
+      <nav className="max-w-7xl mx-auto h-24 flex items-center justify-between px-6 md:px-12 relative">
+        {/* Logo with hover rotation & glow */}
+        <motion.img
+          src={Logo}
+          alt="Herito Wellness Private Limited"
+          className="w-24 md:w-32 cursor-pointer relative z-20"
+          whileHover={{ scale: 1.1, rotate: [0, 8, -8, 0], boxShadow: '0px 0px 25px rgba(255,0,0,0.6)' }}
+          transition={{ duration: 0.8, ease: 'easeInOut' }}
+        />
 
-      {/* Desktop Navigation */}
-      <nav className="hidden  md:flex items-center gap-8">
-         <motion.a 
-          href="/" 
-          className="text-white text-sm font-medium hover:text-yellow-400 transition-colors"
-          whileHover={{ y: -2 }}
-          transition={{ type: "spring", stiffness: 400, damping: 10 }}
-        >
-          Home
-        </motion.a>
-        <motion.a 
-          href="/products" 
-          className="text-white text-sm font-medium hover:text-yellow-400 transition-colors"
-          whileHover={{ y: -2 }}
-          transition={{ type: "spring", stiffness: 400, damping: 10 }}
-        >
-          Products
-        </motion.a>
-        <motion.a 
-          href="/about" 
-          className="text-white text-sm font-medium hover:text-yellow-400 transition-colors"
-          whileHover={{ y: -2 }}
-          transition={{ type: "spring", stiffness: 400, damping: 10 }}
-        >
-          About
-        </motion.a>
-        <motion.a 
-          href="/contact" 
-          className="text-white text-sm font-medium hover:text-yellow-400 transition-colors"
-          whileHover={{ y: -2 }}
-          transition={{ type: "spring", stiffness: 400, damping: 10 }}
-        >
-          Contact
-        </motion.a>
-        
-        <motion.button
-          whileHover={buttonHover}
-          whileTap={buttonTap}
-          className="px-5 py-2.5 rounded-xl bg-white text-black font-semibold flex items-center gap-2 shadow-md group"
-        >
-          <FaEnvelope className="text-sm" />
-          <a href="/enquiry">Enquiry</a>
-          <motion.div
-            className="w-0 h-0.5 bg-black absolute bottom-1.5 left-4 group-hover:w-12"
-            transition={{ duration: 0.3 }}
-          />
-        </motion.button>
+        {/* Desktop Menu */}
+        <ul className="hidden md:flex gap-8 text-white font-semibold text-base md:text-lg relative z-20">
+          {navLinks.map((link) => (
+            <motion.li
+              key={link.name}
+              whileHover={{ y: -4, scale: 1.1, color: '#f472b6' }}
+              transition={{ duration: 0.3 }}
+            >
+              <a href={link.href}>{link.name}</a>
+            </motion.li>
+          ))}
+        </ul>
+
+        {/* Mobile Menu Toggle */}
+        <div className="md:hidden relative z-20">
+          <motion.div onClick={() => setMenuOpen(!menuOpen)} whileTap={{ scale: 0.9 }}>
+            {menuOpen ? <HiX className="text-white w-8 h-8" /> : <HiOutlineMenu className="text-white w-8 h-8" />}
+          </motion.div>
+        </div>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.ul
+              initial={{ opacity: 0, y: -40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -40 }}
+              transition={{ duration: 0.4 }}
+              className="absolute top-24 left-0 w-full bg-black text-white flex flex-col items-center gap-4 py-6 md:hidden"
+            >
+              {navLinks.map((link) => (
+                <motion.li
+                  key={link.name}
+                  whileHover={{ scale: 1.1, color: '#f472b6' }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <a href={link.href}>{link.name}</a>
+                </motion.li>
+              ))}
+            </motion.ul>
+          )}
+        </AnimatePresence>
       </nav>
 
-      {/* Mobile Menu Toggle - Animated Hamburger */}
-      <motion.div 
-        className="md:hidden flex items-center z-50"
-        whileTap={{ scale: 0.9 }}
-      >
-        <button 
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="w-10 h-10 flex items-center justify-center relative focus:outline-none"
-          aria-label="Toggle menu"
-        >
-          <motion.div
-            animate={menuOpen ? "open" : "closed"}
-            variants={{
-              closed: { rotate: 0, y: 0 },
-              open: { rotate: 45, y: 5 }
-            }}
-            transition={{ duration: 0.3 }}
-            className="w-6 h-0.5 bg-white absolute"
-          />
-          <motion.div
-            animate={menuOpen ? "open" : "closed"}
-            variants={{
-              closed: { opacity: 1 },
-              open: { opacity: 0 }
-            }}
-            transition={{ duration: 0.2 }}
-            className="w-6 h-0.5 bg-white absolute"
-          />
-          <motion.div
-            animate={menuOpen ? "open" : "closed"}
-            variants={{
-              closed: { rotate: 0, y: 0 },
-              open: { rotate: -45, y: -5 }
-            }}
-            transition={{ duration: 0.3 }}
-            className="w-6 h-0.5 bg-white absolute"
-          />
-        </button>
-      </motion.div>
+      {/* Animated Gradient Underline */}
+      <motion.div
+        initial={{ width: 0 }}
+        animate={{ width: '35%' }}
+        transition={{ duration: 2, delay: 0.3 }}
+        className="absolute top-24 left-8 h-1 bg-gradient-to-r from-red-600 via-pink-500 to-sky-500 rounded-full z-10"
+      />
 
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {menuOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40"
-              onClick={() => setMenuOpen(false)}
-            />
-            
-            <motion.div
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed inset-y-0 right-0 w-3/4 max-w-sm bg-black/95 backdrop-blur-xl shadow-2xl z-40 flex flex-col items-center justify-center gap-8 p-8"
-            >
-              <motion.button
-                onClick={() => setMenuOpen(false)}
-                className="absolute top-6 right-6 text-white text-2xl p-2"
-                whileHover={{ scale: 1.1, rotate: 90 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                
-              </motion.button>
+      {/* Floating Glow Circles */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.2, scale: [1, 1.3, 1] }}
+        transition={{ repeat: Infinity, duration: 15, ease: 'easeInOut' }}
+        className="absolute top-6 left-2 w-36 md:w-48 h-36 md:h-48 bg-gradient-to-br from-red-600 to-transparent blur-3xl rounded-full"
+      />
 
-                 <motion.a
-                href="/"
-                onClick={() => setMenuOpen(false)}
-                variants={menuItemVariants}
-                initial="closed"
-                animate="open"
-                transition={{ delay: 0.1 }}
-                className="text-white text-xl font-medium hover:text-yellow-400 transition-colors"
-              >
-                Home
-              </motion.a>
-
-              <motion.a
-                href="/products"
-                onClick={() => setMenuOpen(false)}
-                variants={menuItemVariants}
-                initial="closed"
-                animate="open"
-                transition={{ delay: 0.1 }}
-                className="text-white text-xl font-medium hover:text-yellow-400 transition-colors"
-              >
-                Products
-              </motion.a>
-
-              <motion.a
-                href="/about"
-                onClick={() => setMenuOpen(false)}
-                variants={menuItemVariants}
-                initial="closed"
-                animate="open"
-                transition={{ delay: 0.2 }}
-                className="text-white text-xl font-medium hover:text-yellow-400 transition-colors"
-              >
-                About
-              </motion.a>
-
-              <motion.a
-                href="/contact"
-                onClick={() => setMenuOpen(false)}
-                variants={menuItemVariants}
-                initial="closed"
-                animate="open"
-                transition={{ delay: 0.3 }}
-                className="text-white text-xl font-medium hover:text-yellow-400 transition-colors"
-              >
-                Contact
-              </motion.a>
-
-              <motion.button
-                onClick={() => setMenuOpen(false)}
-                variants={menuItemVariants}
-                initial="closed"
-                animate="open"
-                transition={{ delay: 0.4 }}
-                whileHover={buttonHover}
-                whileTap={buttonTap}
-                className="px-6 py-3 rounded-xl bg-white text-black font-semibold flex items-center gap-2 mt-4"
-              >
-                <FaEnvelope className="text-sm" />
-                <a href="/enquiry">Enquiry</a>
-              </motion.button>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-    </motion.header>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.2, scale: [1, 1.4, 1] }}
+        transition={{ repeat: Infinity, duration: 20, ease: 'easeInOut' }}
+        className="absolute bottom-0 right-2 w-48 md:w-60 h-48 md:h-60 bg-gradient-to-tr from-sky-500 to-transparent blur-3xl rounded-full"
+      />
+    </header>
   );
 }
