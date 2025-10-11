@@ -25,7 +25,10 @@ export default function Footer() {
         {/* About Section */}
         <div className="space-y-4">
           <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-red-500">Herito Wellness</h2>
-          <p className="text-gray-300">Innovative wellness and beverage solutions crafted for health, taste, and vitality. Join us in redefining refreshment.</p>
+          <p className="text-gray-300">
+            Innovative wellness and beverage solutions crafted for health, taste, and vitality.
+            Join us in redefining refreshment.
+          </p>
         </div>
 
         {/* Quick Links */}
@@ -43,7 +46,7 @@ export default function Footer() {
         <div className="space-y-4">
           <h3 className="font-semibold text-lg mb-2">Support & Policies</h3>
           <ul className="space-y-2">
-             <li><a href="#" className="hover:text-pink-400 transition-colors">Help Center</a></li>
+            <li><a href="#" className="hover:text-pink-400 transition-colors">Help Center</a></li>
             <li><a href="#" className="hover:text-pink-400 transition-colors">Support</a></li>
             <li><a href="#" className="hover:text-pink-400 transition-colors">Privacy Policy</a></li>
             <li><a href="#" className="hover:text-pink-400 transition-colors">Terms & Conditions</a></li>
@@ -63,8 +66,17 @@ export default function Footer() {
 
       </div>
 
-      <div className="text-center text-gray-400 mt-12">
-        &copy; {new Date().getFullYear()} Herito Wellness Private Limited. All Rights Reserved.
+      {/* Footer Bottom */}
+      <div className="text-center mt-12 space-y-2 text-gray-400">
+        <p>&copy; {new Date().getFullYear()} Herito Wellness Private Limited. All Rights Reserved.</p>
+        <motion.p
+          className="text-sm text-pink-400"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+        >
+          Crafted with ❤️ by <a href="https://poeage.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-white hover:text-pink-400 transition-colors">Poeage Technology Pvt. Ltd.</a>
+        </motion.p>
       </div>
 
     </footer>
