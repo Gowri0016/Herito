@@ -2,9 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import FounderImg from '../Asset/Pineapple.png';
 import P from '../Asset/003.jpg';
-import S from '../Asset/005.jpg';
+import S from '../Asset/002.jpg';
 import M from '../Asset/006.jpg';
-import O from '../Asset/002.jpg';
+import O from '../Asset/005.jpg';
 import A from '../Asset/004.jpg';
 import G from '../Asset/001.jpg';
 
