@@ -80,7 +80,7 @@ export default function AboutMissionVision() {
               <motion.img
                 src={FounderImg}
                 alt="Founder"
-                className="relative w-52 h-64 md:w-64 md:h-80 rounded-3xl shadow-2xl object-cover border border-gray-700"
+                className="relative w-52 h-full md:w-64 md:h-full rounded-3xl shadow-2xl object-cover border border-gray-700"
                 whileHover={{ scale: 1.04 }}
                 transition={{ duration: 0.6 }}
               />
