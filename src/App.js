@@ -8,6 +8,8 @@ import Notfound from './Commit/Notfound';
 import About from './Commit/About';
 import Products from './Commit/Products';
 import Home from './Commit/Home';
+import Privacy from './Commit/Privacy';
+import Trems from './Commit/Trems';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
       <Route path='/enquiry' element={<Enquiry />}/>
       <Route path='/about' element={<About />} />
       <Route path='/products' element={<Products />} />
+      <Route path='/privacy' element={<Privacy />} />
+      <Route path='/terms' element={<Trems />} />
      </Routes>
      <Footer />
     </div>

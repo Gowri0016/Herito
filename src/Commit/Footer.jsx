@@ -63,15 +63,15 @@ export default function Footer() {
       </div>
 
       {/* Footer Bottom */}
-      <div className="mt-12 pt-6 border-t border-white/10 text-center text-sm text-gray-500">
+      <div className="mt-12 pt-6 border-t border-white text-center text-sm text-white">
         <p>&copy; {new Date().getFullYear()} Herito Wellness Private Limited. All rights reserved.</p>
         <motion.p
-          className="text-pink-400 mt-1"
+          className="text-white/50 mt-1"
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-          Crafted with ❤️ by <span className="text-white hover:text-pink-400 font-semibold">Poeage Technology Pvt. Ltd.</span>
+          Crafted with ❤️ by <span className="text-white/50 hover:text-pink-400 font-semibold">Poeage Technology Pvt. Ltd.</span>
         </motion.p>
       </div>
     </footer>

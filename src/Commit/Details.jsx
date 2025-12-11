@@ -45,8 +45,7 @@ export default function AboutMissionVision() {
             >
               <h3 className="text-2xl font-semibold text-pink-400 mb-3">Our Mission</h3>
               <p className="text-gray-300 leading-relaxed">
-                To create wellness-focused beverages that enhance performance, boost energy, support nutrition,
-                and empower healthier lifestyles — all while delivering great taste & innovation.
+                “Herito Wellness Company exists to create functional foods and beverages that truly work — combining scientific formulation, clean nutrition, and exceptional taste. We are committed to enhancing hydration, energy, immunity, focus, and overall performance through responsibly sourced ingredients, transparent manufacturing, and customer-centric innovation.”
               </p>
             </motion.div>
 
@@ -59,8 +58,7 @@ export default function AboutMissionVision() {
             >
               <h3 className="text-2xl font-semibold text-blue-400 mb-3">Our Vision</h3>
               <p className="text-gray-300 leading-relaxed">
-                To become India’s most trusted and innovative wellness beverage brand — setting global standards
-                in quality, sustainability, and functional nutrition, accessible to every consumer.
+                “To become the most trusted global wellness brand that elevates everyday living through science-backed hydration, nutrition, and lifestyle enhancement — empowering people to live stronger, longer, and healthier lives.”
               </p>
             </motion.div>
           </div>
