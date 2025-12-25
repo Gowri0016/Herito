@@ -10,6 +10,7 @@ import Products from './Commit/Products';
 import Home from './Commit/Home';
 import Privacy from './Commit/Privacy';
 import Trems from './Commit/Trems';
+import Product3DStl from './Commit/Product3DStl';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
       <Route path='/products' element={<Products />} />
       <Route path='/privacy' element={<Privacy />} />
       <Route path='/terms' element={<Trems />} />
+      <Route path='/3d' element={<Product3DStl />} />
      </Routes>
      <Footer />
     </div>

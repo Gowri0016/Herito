@@ -1,57 +1,94 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { NavLink } from 'react-router-dom'
 import Details from './Details'
 
 export default function Home() {
   return (
-    <>
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex flex-col items-center justify-center text-center p-8 relative overflow-hidden">
-        {/* Animated background orbs */}
+    <main className="bg-[#f7f8f5]">
+      {/* HERO SECTION */}
+      <section className="relative pt-36 pb-28 overflow-hidden">
+        {/* Soft ambient shapes */}
         <motion.div
+          aria-hidden
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.3, scale: [1, 1.3, 1] }}
-          transition={{ repeat: Infinity, duration: 8, ease: 'easeInOut' }}
-          className="absolute top-20 left-10 w-48 h-48 bg-red-700 blur-3xl rounded-full"
-        ></motion.div>
+          animate={{ opacity: 0.25, y: [0, -20, 0] }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute -top-10 -left-10 w-80 h-80 rounded-full bg-[#e7ebe5] blur-3xl"
+        />
         <motion.div
+          aria-hidden
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.3, scale: [1, 1.4, 1] }}
-          transition={{ repeat: Infinity, duration: 10, ease: 'easeInOut' }}
-          className="absolute bottom-24 right-16 w-60 h-60 bg-sky-600 blur-3xl rounded-full"
-        ></motion.div>
+          animate={{ opacity: 0.2, y: [0, 20, 0] }}
+          transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-[#eef2ed] blur-3xl"
+        />
 
-        {/* Main Content */}
-        <motion.section
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="max-w-3xl z-10"
-        >
-          <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-pink-500 to-sky-400 mb-4 drop-shadow-lg">
-            Welcome to Herito Wellness <span className="text-white">Private Limited</span>
-          </h1>
-          <p className="text-lg md:text-xl text-gray-300 leading-relaxed tracking-wide">
-            “At Herito Wellness, our journey began with a simple belief — that beverages should do more than refresh. They should energize, nourish, and inspire healthier lifestyles.”
-          </p>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            className="mt-8 px-8 py-3 rounded-full bg-gradient-to-r from-red-600 to-sky-500 text-white font-semibold shadow-xl hover:shadow-red-500/50 transition duration-300"
+        <div className="max-w-7xl mx-auto px-6 md:px-12 grid md:grid-cols-2 gap-16 items-center relative z-10">
+          {/* LEFT CONTENT */}
+          <motion.header
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
           >
-            Explore Our World
-          </motion.button>
-        </motion.section>
+            <p className="text-xs tracking-widest uppercase text-[#7a8a7a]">
+              Wellness • Nutrition • Balance
+            </p>
 
-        {/* Decorative Lines */}
-        <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: '80%' }}
-          transition={{ duration: 2, delay: 0.5 }}
-          className="absolute bottom-10 h-0.5 bg-gradient-to-r from-red-600 via-sky-500 to-transparent rounded-full"
-        ></motion.div>
-      </div>
+            <h1 className="mt-4 text-4xl md:text-5xl font-semibold text-[#1f2933] leading-tight">
+              Wellness Crafted for<br className="hidden md:block" /> Modern Living
+            </h1>
 
+            <p className="mt-6 max-w-xl text-[#4b5563] leading-relaxed">
+              At Herito Wellness, we believe wellness should be simple,
+              transparent, and built into everyday routines — supporting
+              long-term vitality and balance.
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-4">
+              <NavLink
+                to="/products"
+                className="px-6 py-3 rounded-full bg-[#1f2933] text-white text-sm font-medium hover:bg-[#111827] transition"
+              >
+                Explore Products
+              </NavLink>
+
+              <NavLink
+                to="/enquiry"
+                className="px-6 py-3 rounded-full border border-[#1f2933] text-[#1f2933] text-sm font-medium hover:bg-[#1f2933] hover:text-white transition"
+              >
+                Enquire Now
+              </NavLink>
+            </div>
+          </motion.header>
+
+          {/* RIGHT VISUAL / DASHBOARD CARD */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            className="relative"
+          >
+            <div className="bg-white rounded-3xl border border-[#e5e7eb] shadow-sm p-8">
+              <p className="text-sm font-medium text-[#1f2933]">
+                Wellness Snapshot
+              </p>
+
+              <div className="mt-6 space-y-5">
+                {[{ label: 'Daily Nutrition', value: 'Balanced Intake' }, { label: 'Immunity Focus', value: 'Year-round Support' }, { label: 'Clean Ingredients', value: 'Carefully Sourced' }].map((item) => (
+                  <div key={item.label} className="flex justify-between text-sm">
+                    <span className="text-[#4b5563]">{item.label}</span>
+                    <span className="text-[#1f2933] font-medium">{item.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* DETAILS SECTION */}
       <Details />
-    </>
+    </main>
   )
 }

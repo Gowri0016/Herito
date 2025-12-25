@@ -1,98 +1,120 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import Logo from '../Asset/3.jpeg';
-import { HiOutlineMenu, HiX } from 'react-icons/hi';
+import React, { useState, useEffect } from 'react'
+import { NavLink } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
+import Logo from '../Asset/3.jpeg'
+import { HiOutlineMenu, HiX } from 'react-icons/hi'
 
 export default function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
-    { name: 'Products', href: '/products' },
-    { name: 'Enquiry', href: '/enquiry' }
-  ];
+    { name: 'Home', to: '/' },
+    { name: 'About', to: '/about' },
+    { name: 'Products', to: '/products' }
+  ]
 
   return (
-    <header className="fixed top-0 left-0 w-full bg-black z-50 shadow-lg">
-      {/* Navigation Bar */}
-      <nav className="max-w-7xl mx-auto h-24 flex items-center justify-between px-6 md:px-12 relative">
-        {/* Logo with hover rotation & glow */}
-       <a href="/"> <motion.img
-          src={Logo}
-          alt="Herito Wellness Private Limited"
-          className="w-24 md:w-32 cursor-pointer relative z-20"
-          whileHover={{ scale: 1.1, rotate: [0, 8, -8, 0], boxShadow: '0px 0px 25px rgba(255,0,0,0.6)' }}
-          transition={{ duration: 0.8, ease: 'easeInOut' }}
-        />
-        </a>
+    <header
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300
+      ${scrolled ? 'bg-white shadow-sm' : 'bg-white'}`}
+    >
+      <nav className="max-w-7xl mx-auto h-20 flex items-center justify-between px-6 md:px-12">
+        
+        {/* Logo */}
+        <NavLink to="/" className="flex items-center">
+          <img
+            src={Logo}
+            alt="Herito Wellness Private Limited"
+            className="w-20 md:w-24 object-contain"
+          />
+        </NavLink>
 
-        {/* Desktop Menu */}
-        <ul className="hidden md:flex gap-8 text-white font-semibold text-base md:text-lg relative z-20">
-          {navLinks.map((link) => (
-            <motion.li
-              key={link.name}
-              whileHover={{ y: -4, scale: 1.1, color: '#f472b6' }}
-              transition={{ duration: 0.3 }}
-            >
-              <a href={link.href}>{link.name}</a>
-            </motion.li>
-          ))}
-        </ul>
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-10">
+          <ul className="flex items-center gap-10 text-gray-700 text-sm font-medium">
+            {navLinks.map((link) => (
+              <li key={link.name} className="relative">
+                <NavLink
+                  to={link.to}
+                  className={({ isActive }) =>
+                    `pb-1 transition-colors duration-200 ${
+                      isActive
+                        ? 'text-gray-900 border-b-2 border-gray-900'
+                        : 'hover:text-gray-900'
+                    }`
+                  }
+                >
+                  {link.name}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
 
-        {/* Mobile Menu Toggle */}
-        <div className="md:hidden relative z-20">
-          <motion.div onClick={() => setMenuOpen(!menuOpen)} whileTap={{ scale: 0.9 }}>
-            {menuOpen ? <HiX className="text-white w-8 h-8" /> : <HiOutlineMenu className="text-white w-8 h-8" />}
-          </motion.div>
+          {/* CTA Button */}
+          <NavLink
+            to="/enquiry"
+            className="ml-6 px-5 py-2 rounded-full border border-gray-900 text-gray-900
+                       text-sm font-medium hover:bg-gray-900 hover:text-white
+                       transition-colors duration-300"
+          >
+            Enquire Now
+          </NavLink>
         </div>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {menuOpen && (
-            <motion.ul
-              initial={{ opacity: 0, y: -40 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -40 }}
-              transition={{ duration: 0.4 }}
-              className="absolute top-24 left-0 w-full bg-black text-white flex flex-col items-center gap-4 py-6 md:hidden"
-            >
-              {navLinks.map((link) => (
-                <motion.li
-                  key={link.name}
-                  whileHover={{ scale: 1.1, color: '#f472b6' }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <a href={link.href}>{link.name}</a>
-                </motion.li>
-              ))}
-            </motion.ul>
-          )}
-        </AnimatePresence>
+        {/* Mobile Toggle */}
+        <div className="md:hidden text-gray-900">
+          <button onClick={() => setMenuOpen(!menuOpen)}>
+            {menuOpen ? <HiX size={26} /> : <HiOutlineMenu size={26} />}
+          </button>
+        </div>
       </nav>
 
-      {/* Animated Gradient Underline */}
-      <motion.div
-        initial={{ width: 0 }}
-        animate={{ width: '35%' }}
-        transition={{ duration: 2, delay: 0.3 }}
-        className="absolute top-24 left-8 h-1 bg-gradient-to-r from-red-600 via-pink-500 to-sky-500 rounded-full z-10"
-      />
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden bg-white border-t border-gray-200"
+          >
+            <ul className="flex flex-col items-center gap-6 py-6 text-gray-800 text-base font-medium">
+              {navLinks.map((link) => (
+                <li key={link.name}>
+                  <NavLink
+                    to={link.to}
+                    onClick={() => setMenuOpen(false)}
+                    className={({ isActive }) =>
+                      isActive ? 'text-gray-900' : 'hover:text-gray-900'
+                    }
+                  >
+                    {link.name}
+                  </NavLink>
+                </li>
+              ))}
 
-      {/* Floating Glow Circles */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.2, scale: [1, 1.3, 1] }}
-        transition={{ repeat: Infinity, duration: 15, ease: 'easeInOut' }}
-        className="absolute top-6 left-2 w-36 md:w-48 h-36 md:h-48 bg-gradient-to-br from-red-600 to-transparent blur-3xl rounded-full"
-      />
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.2, scale: [1, 1.4, 1] }}
-        transition={{ repeat: Infinity, duration: 20, ease: 'easeInOut' }}
-        className="absolute bottom-0 right-2 w-48 md:w-60 h-48 md:h-60 bg-gradient-to-tr from-sky-500 to-transparent blur-3xl rounded-full"
-      />
+              {/* Mobile CTA */}
+              <NavLink
+                to="/enquiry"
+                onClick={() => setMenuOpen(false)}
+                className="mt-2 px-6 py-2 rounded-full border border-gray-900
+                           text-gray-900 hover:bg-gray-900 hover:text-white
+                           transition"
+              >
+                Enquire Now
+              </NavLink>
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
-  );
+  )
 }
