@@ -2,187 +2,204 @@ import React from 'react'
 
 export default function Privacy() {
   return (
-    <div className="max-w-4xl mx-auto mt-20 p-6 text-gray-800 leading-relaxed">
-      <h1 className="text-3xl font-bold mb-6 text-center">PRIVACY POLICY</h1>
+    <main className="bg-[#f7f8f5] text-gray-700">
+      <div className="max-w-5xl mx-auto px-6 md:px-12 py-24">
 
-      <section className="mb-6">
-        <p><strong>Company:</strong> Herito Wellness Private Limited</p>
-        <p><strong>Effective Date:</strong> 12/08/2025</p>
-        <p><strong>Jurisdiction:</strong> Republic of India</p>
-        <p className="mt-3">Herito Wellness is committed to protecting your personal information and using it responsibly. This Privacy Policy explains how we collect, use, store, disclose, and secure personal information when customers, partners, or visitors interact with our functional beverages, foods, websites, applications, and services.</p>
-      </section>
+        {/* Header */}
+        <header className="text-center mb-16">
+          <h1 className="text-4xl font-semibold text-gray-900 mb-4">
+            Privacy Policy
+          </h1>
+          <p className="text-gray-500 max-w-3xl mx-auto">
+            Herito Wellness Private Limited is committed to protecting your
+            personal information and handling it responsibly, transparently,
+            and securely.
+          </p>
+        </header>
 
-      {/* 1. Information We Collect */}
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">1. Information We Collect</h2>
+        {/* Company Info */}
+        <section className="bg-white border border-gray-200 rounded-2xl p-8 mb-12">
+          <p><strong>Company:</strong> Herito Wellness Private Limited</p>
+          <p className="mt-1"><strong>Effective Date:</strong> 12 August 2025</p>
+          <p className="mt-1"><strong>Jurisdiction:</strong> Republic of India</p>
 
-        <h3 className="font-semibold mt-3">A. Information You Provide Directly</h3>
-        <ul className="list-disc pl-6 mt-1 space-y-1">
-          <li>Full name</li>
-          <li>Email address</li>
-          <li>Phone / WhatsApp number</li>
-          <li>Date of birth (optional)</li>
-          <li>Shipping / Billing address</li>
-          <li>Payment information (handled by payment partners, not stored by us)</li>
-          <li>Product feedback, complaints, survey responses</li>
-        </ul>
+          <p className="mt-4 text-gray-600">
+            This Privacy Policy explains how personal information is collected,
+            used, stored, shared, and protected when you interact with our
+            products, websites, applications, and services.
+          </p>
+        </section>
 
-        <h3 className="font-semibold mt-4">B. Information Collected Automatically</h3>
-        <ul className="list-disc pl-6 mt-1 space-y-1">
-          <li>IP address</li>
-          <li>Browser and device details</li>
-          <li>Operating system</li>
-          <li>Approximate location (optional via permissions)</li>
-          <li>Usage data: clicks, time spent, browsing patterns</li>
-          <li>Cookies and tracking information</li>
-        </ul>
+        {/* Sections */}
+        <div className="space-y-10">
 
-        <h3 className="font-semibold mt-4">C. Social Media / Campaign Sources</h3>
-        <ul className="list-disc pl-6 mt-1 space-y-1">
-          <li>Public profile name</li>
-          <li>Engagement details</li>
-          <li>Campaign or referral participation</li>
-        </ul>
+          {/* 1 */}
+          <section className="bg-white border border-gray-200 rounded-2xl p-8">
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">
+              1. Information We Collect
+            </h2>
 
-        <p className="mt-3">We do not intentionally collect information from children under 14 years without guardian supervision.</p>
-      </section>
+            <div className="space-y-4 text-gray-600">
+              <div>
+                <p className="font-medium text-gray-800">A. Information You Provide</p>
+                <ul className="list-disc pl-6 mt-2 space-y-1">
+                  <li>Name, email, phone number</li>
+                  <li>Shipping and billing address</li>
+                  <li>Date of birth (optional)</li>
+                  <li>Feedback, complaints, surveys</li>
+                  <li>Payment details (processed by partners, not stored by us)</li>
+                </ul>
+              </div>
 
-      {/* 2. How We Use Your Information */}
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">2. How We Use Your Information</h2>
-        <ul className="list-disc pl-6 space-y-1">
-          <li>Process and deliver orders</li>
-          <li>Customer support and complaint resolution</li>
-          <li>Send updates, promotions, and loyalty rewards</li>
-          <li>Analyze user behavior to improve products</li>
-          <li>Validate identity and prevent fraud</li>
-          <li>Maintain safety and regulatory compliance</li>
-          <li>Conduct optional anonymized research</li>
-        </ul>
-        <p className="mt-2">Personal information is not used for medical diagnosis or profiling of health conditions.</p>
-      </section>
+              <div>
+                <p className="font-medium text-gray-800">B. Information Collected Automatically</p>
+                <ul className="list-disc pl-6 mt-2 space-y-1">
+                  <li>IP address and device details</li>
+                  <li>Browser and operating system</li>
+                  <li>Usage behavior and analytics</li>
+                  <li>Cookies and tracking technologies</li>
+                </ul>
+              </div>
 
-      {/* 3. Legal Basis */}
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">3. Legal Basis for Processing</h2>
-        <ul className="list-disc pl-6 space-y-1">
-          <li>Customer consent</li>
-          <li>Performance of a purchase/contract</li>
-          <li>Legitimate business interests</li>
-          <li>Safety and regulatory obligations</li>
-          <li>Fraud prevention and security</li>
-        </ul>
-      </section>
+              <div>
+                <p className="font-medium text-gray-800">C. Campaign & Social Sources</p>
+                <ul className="list-disc pl-6 mt-2 space-y-1">
+                  <li>Public profile identifiers</li>
+                  <li>Engagement and referral data</li>
+                </ul>
+              </div>
 
-      {/* 4. Sharing of Information */}
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">4. Sharing of Information</h2>
-        <p>We do not sell or rent personal data.</p>
-        <p className="mt-2">Information may be shared only with essential service partners:</p>
-        <ul className="list-disc pl-6 mt-1 space-y-1">
-          <li>Courier and delivery companies</li>
-          <li>Payment gateways</li>
-          <li>CRM and customer support tools</li>
-          <li>SMS, email, WhatsApp communication services</li>
-          <li>Analytics and hosting providers</li>
-          <li>Regulatory authorities (only when legally required)</li>
-        </ul>
-        <p className="mt-2">All partners must use the data only for Herito Wellness services.</p>
-      </section>
+              <p>
+                We do not knowingly collect data from children under 14 years
+                without parental supervision.
+              </p>
+            </div>
+          </section>
 
-      {/* 5. Cookies */}
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">5. Cookies & Tracking</h2>
-        <p>Cookies help us:</p>
-        <ul className="list-disc pl-6 mt-1 space-y-1">
-          <li>Improve site performance and navigation</li>
-          <li>Personalize shopping and recommendations</li>
-          <li>Measure campaign and website analytics</li>
-        </ul>
-        <p className="mt-2">Users may disable cookies, but some features may not function properly.</p>
-      </section>
+          {/* 2 */}
+          <section className="bg-white border border-gray-200 rounded-2xl p-8">
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">
+              2. How We Use Your Information
+            </h2>
+            <ul className="list-disc pl-6 space-y-1 text-gray-600">
+              <li>Order processing and delivery</li>
+              <li>Customer support and service communication</li>
+              <li>Promotions, offers, and loyalty benefits</li>
+              <li>Product improvement and analytics</li>
+              <li>Fraud prevention and regulatory compliance</li>
+            </ul>
+            <p className="mt-3">
+              Personal data is not used for medical diagnosis or health profiling.
+            </p>
+          </section>
 
-      {/* 6. Security */}
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">6. Information Security</h2>
-        <p>We safeguard personal data through:</p>
-        <ul className="list-disc pl-6 mt-1 space-y-1">
-          <li>Encrypted data storage</li>
-          <li>Role-based access control</li>
-          <li>Cybersecurity monitoring</li>
-          <li>PCI-DSS-compliant payment processing</li>
-        </ul>
-        <p className="mt-2">No system can guarantee 100% security. The Company is not liable for breaches caused by user negligence, device compromise, or unrelated suspicious links.</p>
-      </section>
+          {/* 3 */}
+          <section className="bg-white border border-gray-200 rounded-2xl p-8">
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">
+              3. Legal Basis for Processing
+            </h2>
+            <ul className="list-disc pl-6 space-y-1 text-gray-600">
+              <li>User consent</li>
+              <li>Performance of contracts and purchases</li>
+              <li>Legitimate business interests</li>
+              <li>Legal and safety obligations</li>
+            </ul>
+          </section>
 
-      {/* 7. Data Retention */}
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">7. Data Retention</h2>
-        <p>Personal information is retained only for:</p>
-        <ul className="list-disc pl-6 mt-1 space-y-1">
-          <li>Order fulfilment and support</li>
-          <li>Legal or accounting requirements</li>
-          <li>Safety and fraud prevention</li>
-          <li>Anonymous analytics after purpose expiry</li>
-        </ul>
-        <p className="mt-2">Customers may request deletion (see Section 10).</p>
-      </section>
+          {/* 4 */}
+          <section className="bg-white border border-gray-200 rounded-2xl p-8">
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">
+              4. Sharing of Information
+            </h2>
+            <p className="text-gray-600">
+              We do not sell or rent personal data. Information is shared only
+              with essential service providers such as logistics partners,
+              payment gateways, communication tools, analytics platforms, or
+              regulatory authorities when required by law.
+            </p>
+          </section>
 
-      {/* 8. Marketing */}
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">8. Marketing & Communications</h2>
-        <p>With your consent, we may send:</p>
-        <ul className="list-disc pl-6 mt-1 space-y-1">
-          <li>Membership and loyalty benefits</li>
-          <li>Product announcements</li>
-          <li>Offers, promotions, contests</li>
-          <li>Brand or educational content</li>
-        </ul>
-        <p className="mt-2">You may unsubscribe anytime.</p>
-      </section>
+          {/* 5 */}
+          <section className="bg-white border border-gray-200 rounded-2xl p-8">
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">
+              5. Cookies & Tracking
+            </h2>
+            <p className="text-gray-600">
+              Cookies help improve website performance, personalization, and
+              analytics. Disabling cookies may limit certain features.
+            </p>
+          </section>
 
-      {/* 9. Children's Privacy */}
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">9. Children’s Privacy</h2>
-        <p>Digital services are not designed for children under 14. Parental supervision is recommended.</p>
-      </section>
+          {/* 6 */}
+          <section className="bg-white border border-gray-200 rounded-2xl p-8">
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">
+              6. Data Security
+            </h2>
+            <p className="text-gray-600">
+              We use encryption, access controls, cybersecurity monitoring, and
+              PCI-DSS-compliant payment systems. Absolute security cannot be
+              guaranteed.
+            </p>
+          </section>
 
-      {/* 10. Your Rights */}
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">10. Your Privacy Rights</h2>
-        <p>You may request the following:</p>
-        <ul className="list-disc pl-6 space-y-1 mt-1">
-          <li>Access to stored personal data</li>
-          <li>Correction or updates</li>
-          <li>Restriction of marketing messages</li>
-          <li>Deletion of your account and personal data</li>
-        </ul>
-        <p className="mt-2">Contact us at: <strong>[Insert consumer support email]</strong></p>
-      </section>
+          {/* 7 */}
+          <section className="bg-white border border-gray-200 rounded-2xl p-8">
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">
+              7. Data Retention
+            </h2>
+            <p className="text-gray-600">
+              Personal data is retained only as long as necessary for business,
+              legal, or safety purposes.
+            </p>
+          </section>
 
-      {/* 11. Third-Party Links */}
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">11. Third-Party Links & Embedded Content</h2>
-        <p>We are not responsible for the privacy or security practices of external websites or platforms.</p>
-      </section>
+          {/* 8 */}
+          <section className="bg-white border border-gray-200 rounded-2xl p-8">
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">
+              8. Marketing Communication
+            </h2>
+            <p className="text-gray-600">
+              You may opt out of promotional communications at any time through
+              unsubscribe options or by contacting us.
+            </p>
+          </section>
 
-      {/* 12. Changes */}
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">12. Changes to the Privacy Policy</h2>
-        <p>We may update this policy to reflect regulatory changes, safety improvements, or technological upgrades. Revised versions will include a new effective date.</p>
-      </section>
+          {/* 9 */}
+          <section className="bg-white border border-gray-200 rounded-2xl p-8">
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">
+              9. Your Rights
+            </h2>
+            <ul className="list-disc pl-6 space-y-1 text-gray-600">
+              <li>Access or correct personal data</li>
+              <li>Restrict marketing communications</li>
+              <li>Request account or data deletion</li>
+            </ul>
+          </section>
 
-      {/* 13. Contact */}
-      <section className="mb-10">
-        <h2 className="text-xl font-semibold mb-2">13. Contact Information</h2>
-        <p><strong>Email:</strong> [Insert official support email]</p>
-        <p><strong>Customer Support:</strong> +91 9445454943</p>
-        <p><strong>Address:</strong> 115/33, Chola Nagar, Vadugapalayam, Modachur, Gobichettipalayam, Erode, Tamil Nadu - 638476</p>
-      </section>
+          {/* 10 */}
+          <section className="bg-white border border-gray-200 rounded-2xl p-8">
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">
+              10. Contact Information
+            </h2>
+            <p><strong>Email:</strong> support@heritowellness.com</p>
+            <p><strong>Phone:</strong> +91 94454 54943</p>
+            <p>
+              <strong>Address:</strong> 115/33, Gobichettipalayam,
+              Erode – 638476, Tamil Nadu, India
+            </p>
+          </section>
 
-      <section className="text-center font-medium">
-        <p>By interacting with or purchasing from Herito Wellness Company, you acknowledge that you have read, understood, and agreed to this Privacy Policy.</p>
-      </section>
-    </div>
+        </div>
+
+        {/* Acceptance */}
+        <footer className="mt-16 bg-white border border-gray-200 rounded-2xl p-8 text-center">
+          <p className="font-medium text-gray-800">
+            By interacting with Herito Wellness, you acknowledge that you have
+            read and understood this Privacy Policy.
+          </p>
+        </footer>
+
+      </div>
+    </main>
   )
 }
